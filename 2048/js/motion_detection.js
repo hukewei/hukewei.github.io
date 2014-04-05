@@ -12,12 +12,12 @@ var controller = new Leap.Controller(controllerOptions);
 var update = function(){
   frame = controller.frame();
   
-  if ((frame.timestamp - last_timestamp > 750000)) { //interval mininum : 0,75 s
+  if ((frame.timestamp - last_timestamp > 600000)) { //time interval mininum : 0,6 s
   if (frame.gestures.length > 0) {
     for (var i = 0; i < frame.gestures.length; i++) {
       var gesture = frame.gestures[i];
 
-      if (gesture.type == "swipe") {
+      if (gesture.type == "swipe" && gesture.speed > 700) { //mininum speed : 0,6 s
           //Classify swipe as either horizontal or vertical
           var isHorizontal = Math.abs(gesture.direction[0]) > Math.abs(gesture.direction[1]);
           //Classify as right-left or up-down

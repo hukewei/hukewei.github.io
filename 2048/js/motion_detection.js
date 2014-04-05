@@ -11,8 +11,8 @@ var controller = new Leap.Controller(controllerOptions);
 
 var update = function(){
   frame = controller.frame();
-
-  if ((frame.timestamp - last_timestamp > 750000)) {
+  
+  if ((frame.timestamp - last_timestamp > 750000)) { //interval mininum : 0,75 s
   if (frame.gestures.length > 0) {
     for (var i = 0; i < frame.gestures.length; i++) {
       var gesture = frame.gestures[i];
@@ -62,9 +62,9 @@ var update = function(){
       } else if (largest == down_count) {
         console.log('down');
         window.game.move(2);
-      } else if (largest == circle_count && largest > 2) {
+      } else if (largest == circle_count && game.isGameTerminated()) {
         console.log('restart');
-        //window.game.restart();
+        window.game.restart();
       } 
       last_timestamp = frame.timestamp;
     }
@@ -79,7 +79,7 @@ var update = function(){
   controller.connect();
   controller.on('gesture', update);
   controller.on('deviceConnected', function() {
-    var n = noty({layout: 'top', text: 'LeapMotion controler is successfully connected.', type: 'success', timeout: 5000});
+    var n = noty({layout: 'top', text: 'LeapMotion controler is successfully connected.', type: 'success', timeout: 10000});
   console.log("Successfully connected.");
 });
   controller.on('connect', function() {
